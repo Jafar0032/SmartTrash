@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "26730058279",
+    "project_id": "smarttrash-f806c",
+    "storage_bucket": "smarttrash-f806c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:26730058279:android:ec34b6d7d02ba5029b7402",
+        "android_client_info": {
+          "package_name": "com.jafar.smarttrash"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0TltE42nRF_5aWL2w6akEeC7MKy031nk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

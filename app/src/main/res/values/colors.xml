@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    
+    <color name="biru_muda">#4BB6E4</color>
+    <color name="hitam_muda">#636363</color>
+    <color name="abu_tua">#868585</color>
+    <color name="abu_muda">#C0C0C0</color>
+    <color name="abu_agak_muda">#B5AFAF</color>
+</resources>
