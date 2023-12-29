@@ -17,6 +17,8 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.etLoginPassword.transformationMethod = MyPasswordTransformationMethod()
+
         binding.btnLogin.setOnClickListener {
             val nis = binding.etLoginNis.text.trim().toString()
             val password = binding.etLoginPassword.text.trim().toString()
@@ -31,7 +33,6 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             validateUserLogin(nis, password)
-
         }
 
         binding.tvLoginKeRegister.setOnClickListener {
@@ -39,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    fun validateUserLogin(nis: String, password: String) {
+    private fun validateUserLogin(nis: String, password: String) {
         mAuth = FirebaseAuth.getInstance()
         val email = "$nis@gmail.com"
 
@@ -51,5 +52,4 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
-
 }

@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".HomeActivity">
 
     <View
         android:id="@+id/view_bg_top"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="@color/biru_muda"
+        android:background="@drawable/background_blue"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -20,9 +21,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Halo, "
-        android:textAlignment="textStart"
         android:textSize="24sp"
-        android:textStyle="bold"
+        android:fontFamily="@font/montserrat_bold"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,9 +36,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:textAlignment="textStart"
         android:textSize="24sp"
-        android:textStyle="bold"
+        android:fontFamily="@font/montserrat_bold"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/tv_halo"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,12 +47,20 @@
         app:layout_constraintVertical_bias="1.0"
         tools:text="Ja'far"/>
 
+    <ImageView
+        android:id="@+id/iv_logout"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/logout"
+        android:layout_margin="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/view_sampah"
         android:layout_width="140dp"
         android:layout_height="90dp"
         app:cardCornerRadius="15dp"
-        app:cardElevation="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.21"
@@ -66,7 +73,7 @@
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
-            android:src="@drawable/ic_launcher_background" />
+            android:src="@drawable/trash" />
 
         <TextView
             android:id="@+id/tv_jumlah_sampah"
@@ -75,7 +82,7 @@
             android:layout_gravity="end|center"
             android:layout_marginTop="2dp"
             android:textSize="20sp"
-            android:textStyle="bold"
+            android:fontFamily="@font/montserrat_bold"
             tools:text="39" />
 
         <TextView
@@ -85,6 +92,7 @@
             android:layout_marginTop="26dp"
             android:text="@string/sampah"
             android:textSize="12sp"
+            android:fontFamily="@font/montserrat_semibold"
             android:textColor="@color/abu_agak_muda"/>
 
     </androidx.cardview.widget.CardView>
@@ -99,15 +107,14 @@
         app:layout_constraintTop_toTopOf="@id/view_sampah"
         app:layout_constraintBottom_toBottomOf="@id/view_sampah"
         app:layout_constraintVertical_bias="0.24"
-        app:cardCornerRadius="15dp"
-        app:cardElevation="6dp">
+        app:cardCornerRadius="15dp">
 
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
-            android:src="@drawable/ic_launcher_background" />
+            android:src="@drawable/trophy_solid" />
 
         <TextView
             android:id="@+id/tv_ranking"
@@ -116,7 +123,7 @@
             android:layout_gravity="end|center"
             android:layout_marginTop="2dp"
             android:textSize="20sp"
-            android:textStyle="bold"
+            android:fontFamily="@font/montserrat_bold"
             tools:text="#29" />
 
         <TextView
@@ -126,6 +133,7 @@
             android:layout_marginTop="26dp"
             android:text="@string/ranking"
             android:textSize="12sp"
+            android:fontFamily="@font/montserrat_semibold"
             android:textColor="@color/abu_agak_muda"/>
 
     </androidx.cardview.widget.CardView>
@@ -136,8 +144,8 @@
         android:layout_height="wrap_content"
         android:text="Start"
         android:textAlignment="center"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:textSize="20sp"
+        android:fontFamily="@font/montserrat_bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -146,12 +154,43 @@
         app:layout_constraintVertical_bias="0.758" />
 
     <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/btn_scan"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginTop="20dp"
-        android:src="@drawable/ic_launcher_background"
+        android:background="@drawable/circle_button"
+        android:src="@drawable/mag"
         app:layout_constraintTop_toBottomOf="@id/start"
         app:layout_constraintStart_toStartOf="@id/start"
         app:layout_constraintEnd_toEndOf="@id/start"/>
+
+    <FrameLayout
+        android:id="@+id/frame_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#88686868"
+        android:elevation="8dp"
+        android:visibility="invisible">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/anim_progress"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:cardCornerRadius="25dp"
+            android:elevation="10dp"
+            android:visibility="invisible"
+            android:layout_gravity="center">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/trash_animation"
+                android:elevation="11dp"
+                android:layout_gravity="center"/>
+        </androidx.cardview.widget.CardView>
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

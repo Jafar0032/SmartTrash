@@ -29,6 +29,9 @@ class RegisterActivity : AppCompatActivity() {
         mDatabase = FirebaseDatabase.getInstance()
         mRoot = mDatabase.reference
 
+        binding.etRegisterPassword.transformationMethod = MyPasswordTransformationMethod()
+        binding.etRegisterKonfirmasiPassword.transformationMethod = MyPasswordTransformationMethod()
+
         binding.btnRegister.setOnClickListener {
             val nis = binding.etRegisterNis.text.trim().toString()
             val email = "$nis@gmail.com"
@@ -83,6 +86,10 @@ class RegisterActivity : AppCompatActivity() {
                 }
             })
 
+        }
+
+        binding.tvRegisterKeLogin.setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
         }
     }
 

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_bg">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/anim_logout"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:layout_marginVertical="10dp"
+        app:lottie_rawRes="@raw/crying_animation"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"/>
+
+    <TextView
+        android:id="@+id/chooseText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="Kamu mau ninggalin aku ?"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_marginVertical="10dp"
+        android:textSize="16sp"
+        android:fontFamily="@font/montserrat_semibold"
+        android:layout_below="@id/anim_logout"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="28dp"
+        android:layout_marginVertical="20dp"
+        android:layout_below="@id/chooseText">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_logout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Yaa, maaf ya"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:paddingVertical="10dp"
+            android:background="@drawable/blue_button"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Nggak kok!"
+            android:textColor="@color/biru_muda"
+            android:textAllCaps="false"
+            android:layout_marginStart="6dp"
+            android:paddingVertical="10dp"
+            android:background="@drawable/outline_biru_button"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -4,5 +4,16 @@
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
     </style>
 
-    <style name="Theme.SmartTrash" parent="Base.Theme.SmartTrash" />
+    <style name="Theme.SmartTrash.White" parent="Base.Theme.SmartTrash">
+        <item name="android:statusBarColor">@color/white</item>
+    </style>
+
+    <style name="Theme.SmartTrash.Blue" parent="Base.Theme.SmartTrash">
+        <item name="android:statusBarColor">@color/biru_muda</item>
+    </style>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
+    </style>
 </resources>

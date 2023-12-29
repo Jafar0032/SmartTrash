@@ -4,35 +4,115 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ScanActivity">
 
     <ImageView
-        android:id="@+id/camera"
+        android:id="@+id/iv_preview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/ic_launcher_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btn_predict"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="150dp"/>
 
     <ImageView
         android:id="@+id/iv_back"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_marginTop="16dp"
-        android:src="@drawable/ic_launcher_background"
+        android:src="@drawable/arrow_left"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="20dp"/>
+    
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_selesai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selesai"
+        android:fontFamily="@font/montserrat_bold"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:textSize="13sp"
+        android:background="@drawable/outline_button"
+        android:layout_margin="18dp"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="2dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <Button
+    <LinearLayout
+        android:id="@+id/ll_berhasil_deteksi"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/dialog_bg"
+        android:weightSum="20"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_preview">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/blue_button"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="5"
+            android:layout_gravity="center"
+            android:src="@drawable/trash"/>
+
+        <TextView
+            android:id="@+id/tv_informasi_deteksi"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="14"
+            tools:text="Berhasil deteksi # sampah dalam # ms "
+            android:fontFamily="@font/montserrat_medium"
+            android:layout_gravity="center"
+            android:gravity="center_vertical"/>
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_predict"
-        android:layout_width="60dp"
-        android:layout_height="70dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Deteksi"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        android:fontFamily="@font/montserrat_semibold"
+        android:background="@drawable/blue_button_circle"
+        android:paddingHorizontal="30dp"
+        tools:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/camera"
+        app:layout_constraintTop_toBottomOf="@id/iv_preview"
         android:layout_marginVertical="45dp"/>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/scan_animation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:visibility="gone"
+        app:lottie_rawRes="@raw/scan_animation"
+        android:elevation="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="150dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
