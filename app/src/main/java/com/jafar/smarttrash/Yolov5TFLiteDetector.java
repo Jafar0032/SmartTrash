@@ -3,19 +3,13 @@ package com.jafar.smarttrash;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.RectF;
-import android.os.Binder;
 import android.os.Build;
 import android.util.Log;
 import android.util.Size;
 import android.widget.Toast;
 
-
-//import org.checkerframework.checker.nullness.Opt;
-//import org.checkerframework.checker.units.qual.C;
 import org.tensorflow.lite.DataType;
-import org.tensorflow.lite.Delegate;
 import org.tensorflow.lite.Interpreter;
-//import org.tensorflow.lite.InterpreterFactory;
 import org.tensorflow.lite.gpu.GpuDelegate;
 import org.tensorflow.lite.gpu.CompatibilityList;
 import org.tensorflow.lite.nnapi.NnApiDelegate;
@@ -30,7 +24,6 @@ import org.tensorflow.lite.support.image.TensorImage;
 import org.tensorflow.lite.support.image.ops.ResizeOp;
 import org.tensorflow.lite.support.metadata.MetadataExtractor;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
-import org.tensorflow.lite.support.metadata.MetadataParser;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -40,14 +33,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 
-
-import android.graphics.RectF;
-
-
 public class Yolov5TFLiteDetector {
 
-    private final Size INPNUT_SIZE = new Size(640, 640);
-    private final int[] OUTPUT_SIZE = new int[]{1, 25200, 8};
+    private final Size INPNUT_SIZE = new Size(416, 416);
+    private final int[] OUTPUT_SIZE = new int[]{1, 10647, 8};
+    // 320 -> 1, 6300, 8
+    // 416 -> 1, 10647, 8
+    // 640 -> 1, 25200, 8
     private Boolean IS_INT8 = false;
     private final float DETECT_THRESHOLD = 0.25f;
     private final float IOU_THRESHOLD = 0.45f;
@@ -192,7 +184,6 @@ public class Yolov5TFLiteDetector {
                     labelId = j;
                 }
             }
-
 
             Recognition r = new Recognition(
                     labelId,

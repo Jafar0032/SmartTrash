@@ -58,19 +58,17 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/view_sampah"
-        android:layout_width="140dp"
+        android:layout_width="135dp"
         android:layout_height="90dp"
         app:cardCornerRadius="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.21"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.24">
+        android:layout_marginTop="150dp"
+        android:layout_marginStart="40dp">
 
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
             android:src="@drawable/trash" />
@@ -99,19 +97,16 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/view_ranking"
-        android:layout_width="140dp"
+        android:layout_width="135dp"
         android:layout_height="90dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.244"
-        app:layout_constraintStart_toEndOf="@id/view_sampah"
-        app:layout_constraintTop_toTopOf="@id/view_sampah"
         app:layout_constraintBottom_toBottomOf="@id/view_sampah"
-        app:layout_constraintVertical_bias="0.24"
+        android:layout_marginEnd="40dp"
         app:cardCornerRadius="15dp">
 
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
             android:src="@drawable/trophy_solid" />
@@ -148,7 +143,6 @@
         android:fontFamily="@font/montserrat_bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.758" />

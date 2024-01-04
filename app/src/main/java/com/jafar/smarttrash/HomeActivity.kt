@@ -3,7 +3,6 @@ package com.jafar.smarttrash
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
@@ -15,8 +14,6 @@ import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.TranslateAnimation
 import android.widget.Button
-import android.widget.ResourceCursorAdapter
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
@@ -38,6 +35,7 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var userId: String
     private var scoreAddUp: Int = 0
+    private var userScores = mutableListOf<User>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mAuth = FirebaseAuth.getInstance()
@@ -85,7 +83,9 @@ class HomeActivity : AppCompatActivity() {
         })
 
         binding.viewRanking.setOnClickListener {
-            startActivity(Intent(this, LeaderboardActivity::class.java))
+            val intentToLeaderboard = Intent(this, LeaderboardActivity::class.java)
+            intentToLeaderboard.putParcelableArrayListExtra(LeaderboardActivity.EXTRA_USER_LIST, ArrayList(userScores))
+            startActivity(intentToLeaderboard)
         }
 
         binding.btnScan.setOnClickListener {
@@ -102,7 +102,6 @@ class HomeActivity : AppCompatActivity() {
 
         databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val userScores = mutableListOf<User>()
 
                 for (userSnapshot in snapshot.children) {
                     val nis = userSnapshot.child("nis").getValue(String::class.java).toString()

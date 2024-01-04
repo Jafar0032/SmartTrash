@@ -1,5 +1,6 @@
 package com.jafar.smarttrash
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -9,11 +10,11 @@ import android.graphics.Paint
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.ContactsContract.Data
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -24,7 +25,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.getValue
 import com.jafar.smarttrash.databinding.ActivityPreviewBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -48,6 +48,13 @@ class PreviewActivity : AppCompatActivity() {
 
     private var jumlahDeteksi: Int = 0
     private var currentPointUser: Int = 0
+
+    private val callback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            setResult(RESULT_BACK_PREVIEW, Intent())
+            finish()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,7 +95,7 @@ class PreviewActivity : AppCompatActivity() {
         }
 
         yolov5TFLiteDetector = Yolov5TFLiteDetector()
-        yolov5TFLiteDetector.modelFile = "best-fp16.tflite"
+        yolov5TFLiteDetector.modelFile = "yolo_416.tflite"
         yolov5TFLiteDetector.initialModel(this)
 
         setUpBoundingBox()
@@ -103,6 +110,13 @@ class PreviewActivity : AppCompatActivity() {
             val intentToHome = Intent(this, HomeActivity::class.java)
             intentToHome.putExtra(EXTRA_SAMPAH, jumlahDeteksi.toString())
             startActivity(intentToHome)
+            finish()
+        }
+
+        onBackPressedDispatcher.addCallback(this, callback)
+
+        binding.ivBack.setOnClickListener {
+            setResult(RESULT_BACK_PREVIEW, Intent())
             finish()
         }
     }
@@ -120,14 +134,14 @@ class PreviewActivity : AppCompatActivity() {
             val endTime = System.currentTimeMillis()
 
             // Calculate the elapsed time
-            val elapsedTime = endTime - startTime
+            val elapsedTime = (endTime - startTime) / 1000.0
 
             // Update UI on the main thread with the detection results
             withContext(Dispatchers.Main) {
                 processDetectionResults(recognitions)
                 binding.scanAnimation.visibility = View.GONE
                 binding.btnPredict.visibility = View.GONE
-                var teksInformasiDeteksi: String
+                val teksInformasiDeteksi: String
                 if (jumlahDeteksi == 0) {
                     binding.btnSelesai.visibility = View.GONE // Memastikan tombol btn selesai tidak muncul
                     binding.llBerhasilDeteksi.visibility = View.VISIBLE
@@ -136,7 +150,7 @@ class PreviewActivity : AppCompatActivity() {
                     binding.btnSelesai.visibility = View.GONE // Memastikan tombol btn selesai tidak muncul
                     binding.llBerhasilDeteksi.visibility = View.VISIBLE
                     binding.btnSelesai.visibility = View.VISIBLE
-                    teksInformasiDeteksi = "Berhasil deteksi $jumlahDeteksi sampah dalam $elapsedTime ms"
+                    teksInformasiDeteksi = "Berhasil deteksi $jumlahDeteksi sampah dalam ${String.format("%.2f", elapsedTime)} detik"
                 }
                 binding.tvInformasiDeteksi.text = teksInformasiDeteksi
             }
@@ -183,7 +197,6 @@ class PreviewActivity : AppCompatActivity() {
                 inputStream.close()
             }
         }
-
         // Rotate the bitmap based on the orientation
         return rotateBitmap(originalBitmap, orientation)
     }
@@ -202,14 +215,14 @@ class PreviewActivity : AppCompatActivity() {
 
     private fun setUpBoundingBox() {
         strokePaint = Paint()
-        strokePaint.strokeWidth = 10F
+        strokePaint.strokeWidth = 8F
         strokePaint.style = Paint.Style.STROKE
 
         boxPaint = Paint()
         boxPaint.style = Paint.Style.FILL
 
         textPaint = Paint()
-        textPaint.textSize = 200F
+        textPaint.textSize = 50F
         textPaint.style = Paint.Style.FILL
     }
 
@@ -240,5 +253,6 @@ class PreviewActivity : AppCompatActivity() {
         private val TAG = PreviewActivity::class.java.simpleName
         const val EXTRA_IMAGE_URI = "extra_image_uri"
         const val EXTRA_SAMPAH = "extra_sampah"
+        const val RESULT_BACK_PREVIEW = 999
     }
 }

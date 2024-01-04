@@ -4,13 +4,13 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.media.Image
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -53,7 +53,16 @@ class ScanActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSION, REQUEST_CODE_PERMISSION)
         }
 
-        registerResult()
+        resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val selectedImageUri = result.data?.data
+                val intentToPreview = Intent(this, PreviewActivity::class.java)
+                intentToPreview.putExtra(PreviewActivity.EXTRA_IMAGE_URI, selectedImageUri.toString())
+                startActivity(intentToPreview)
+            } else if(result.resultCode == PreviewActivity.RESULT_BACK_PREVIEW) {
+                startCamera()
+            }
+        }
 
         binding.btnCapture.setOnClickListener {
             takePhoto()
@@ -93,12 +102,14 @@ class ScanActivity : AppCompatActivity() {
             outputOption, ContextCompat.getMainExecutor(this),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+                    stopCameraPreview()
+
                     val intent = Intent(this@ScanActivity, PreviewActivity::class.java)
                     intent.putExtra(
                         PreviewActivity.EXTRA_IMAGE_URI,
                         outputFileResults.savedUri.toString()
                     )
-                    startActivity(intent)
+                    resultLauncher.launch(intent)
                 }
 
                 override fun onError(exception: ImageCaptureException) {
@@ -160,6 +171,16 @@ class ScanActivity : AppCompatActivity() {
         }
     }
 
+    // stopCameraPreview merupakan sebuah method yang digunakan untuk melakukan freeze terhadap kamera
+    // ketika tombol takePhoto sudah ditekan
+    private fun stopCameraPreview() {
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+        cameraProviderFuture.addListener({
+            val cameraProvider = cameraProviderFuture.get()
+            cameraProvider.unbindAll()
+        }, ContextCompat.getMainExecutor(this))
+    }
+
     private fun allPermissionGranted() =
         REQUIRED_PERMISSION.all {
             ContextCompat.checkSelfPermission(
@@ -172,22 +193,23 @@ class ScanActivity : AppCompatActivity() {
         resultLauncher.launch(intent)
     }
 
-    private fun registerResult() {
-        resultLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-                if (result.resultCode == Activity.RESULT_OK) {
-                    val selectedImageUri = result.data?.data
-                    val intentToPreview = Intent(this, PreviewActivity::class.java)
-                    intentToPreview.putExtra(PreviewActivity.EXTRA_IMAGE_URI, selectedImageUri.toString())
-                    startActivity(intentToPreview)
-                }
-            }
-    }
+//    private fun registerResult() {
+//        resultLauncher =
+//            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+//                if (result.resultCode == Activity.RESULT_OK) {
+//                    val selectedImageUri = result.data?.data
+//                    val intentToPreview = Intent(this, PreviewActivity::class.java)
+//                    intentToPreview.putExtra(PreviewActivity.EXTRA_IMAGE_URI, selectedImageUri.toString())
+//                    startActivity(intentToPreview)
+//                }
+//            }
+//    }
 
     companion object {
         const val TAG = "cameraX"
         const val FILE_NAME_FORMAT = "yy-MM-dd-HH-mm-ss-SSS"
         const val REQUEST_CODE_PERMISSION = 123
+        const val PREVIEW_ACTIVITY_REQUEST_CODE = 111
         val REQUIRED_PERMISSION = arrayOf(Manifest.permission.CAMERA)
     }
 
